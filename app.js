@@ -57,7 +57,7 @@ ClickCounter['newUnicorn'] = newUnicorn.clicked;
 ClickCounter['newUsb'] = newUsb.clicked;
 ClickCounter['newWaterCan'] = newWaterCan.clicked;
 ClickCounter['newWineGlass'] = newWineGlass.clicked;
-console.log(ClickCounter);
+// console.log(ClickCounter);
 
 var numberArray = [];
 var setOfImagesArray = [];
@@ -108,21 +108,23 @@ appendImagesToDiv();
 
 // handles the click event to reset images and increments the clicked counter for image clicked
 function handleClick(event) {
-  event.preventDefault();
-  globalCounter++;
-  console.log(globalCounter);
-  var target = event.target.id;
-  ClickCounter[target] = ClickCounter[target] + 1;
-  for (var i = 0; i < 3; i++) {
-    var divImg = document.getElementById('image-' + i);
-    mainImgDiv.removeChild(divImg);
-    var newDiv = document.createElement('div');
-    newDiv.setAttribute('id', 'image-' + i);
-    mainImgDiv.appendChild(newDiv);
-  }
-  appendImagesToDiv();
+  // event.preventDefault();
+
   if (globalCounter === 20) {
     createList();
+  } else {
+    globalCounter++;
+    console.log(globalCounter);
+    var target = event.target.id;
+    ClickCounter[target] = ClickCounter[target] + 1;
+    for (var i = 0; i < 3; i++) {
+      var divImg = document.getElementById('image-' + i);
+      mainImgDiv.removeChild(divImg);
+      var newDiv = document.createElement('div');
+      newDiv.setAttribute('id', 'image-' + i);
+      mainImgDiv.appendChild(newDiv);
+    }
+    appendImagesToDiv();
   }
 }
 
