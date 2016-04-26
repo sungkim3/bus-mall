@@ -1,6 +1,7 @@
 var imagesArray = [];
 var mainImgDiv = document.getElementById('image-div');
 var ClickCounter = {};
+var globalCounter = 0;
 
 //Image object constructor, pushes each created object into an array
 function CreateImageObject(imageName, type, shown, clicked, id) {
@@ -108,6 +109,11 @@ appendImagesToDiv();
 // handles the click event to reset images and increments the clicked counter for image clicked
 function handleClick(event) {
   event.preventDefault();
+  globalCounter++;
+  console.log(globalCounter);
+  if (globalCounter === 20) {
+    createList();
+  }
   var target = event.target.id;
   ClickCounter[target] = ClickCounter[target] + 1;
   for (var i = 0; i < 3; i++) {
@@ -118,6 +124,17 @@ function handleClick(event) {
     mainImgDiv.appendChild(newDiv);
   }
   appendImagesToDiv();
+}
+
+function createList(){
+  var ulEl = document.getElementById('data-list');
+  for (i = 0; i < 20; i++) {
+    var liEl = document.createElement('li');
+    liEl.textContent = imagesArray[i].imageName + '.' + imagesArray[i].type +
+      ' was clicked ' + ClickCounter[imagesArray[i].id] + ' out of ' + imagesArray[i].shown
+      + ' times shown.';
+    ulEl.appendChild(liEl);
+  }
 }
 
 mainImgDiv.addEventListener('click', handleClick);
