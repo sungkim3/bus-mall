@@ -111,9 +111,6 @@ function handleClick(event) {
   event.preventDefault();
   globalCounter++;
   console.log(globalCounter);
-  if (globalCounter === 20) {
-    createList();
-  }
   var target = event.target.id;
   ClickCounter[target] = ClickCounter[target] + 1;
   for (var i = 0; i < 3; i++) {
@@ -124,6 +121,9 @@ function handleClick(event) {
     mainImgDiv.appendChild(newDiv);
   }
   appendImagesToDiv();
+  if (globalCounter === 20) {
+    createList();
+  }
 }
 
 function createList(){
