@@ -1,0 +1,9 @@
+.all-container {
+  display: flex;
+  flex-direction: row;
+}
+.all-container > div {
+  display: flex;
+  flex-direction: row;
+
+}
