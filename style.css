@@ -1,9 +1,21 @@
 .all-container {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
-.all-container > div {
-  display: flex;
-  flex-direction: row;
 
+.all-container > div {
+  margin-left: 0px;
+  margin-right: 0px;
+  border-style: outset;
+  max-width: 200px;
+  max-height: 200px;
+}
+.list-container {
+  display: flex;
+  justify-content: center;
+
+}
+.list > li {
+  font-family: 'Oswald', sans-serif;
 }
