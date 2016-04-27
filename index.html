@@ -3,6 +3,7 @@
 <head>
   <title>Bus Mall</title>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="chart.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -11,9 +12,23 @@
     <div id="image-1"></div>
     <div id="image-2"></div>
   </div>
-  <div class="list-container">
-    <ul class="list" id="data-list">
-    </ul>
+  <div class="button-container" id="contain-buttons">
+    <div class="two-buttons">
+      <button class="results" id="result-button"> SHOW RESULTS </button>
+      <button class="more-trials" id="trials-button"> TEN MORE TIMES </button>
+    </div>
+    <div class="reset-container">
+      <button class="reset-page" id="reset-button"> RESET </button>
+    </div>
+  </div>
+  <div class="display-data">
+    <div class="list-container" id="contains-list">
+      <ul class="list" id="data-list">
+      </ul>
+    </div>
+    <div class="chart-container" id="contains-chart">
+      <canvas id="data-chart" width="400" height="400"></canvas>
+    </div>
   </div>
   <script src="app.js"> </script>
 </body>
