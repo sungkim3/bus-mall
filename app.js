@@ -134,6 +134,7 @@ function replaceImages() {
 function handleClick(event) {
   // event.preventDefault();
   if (globalCounter === 20) {
+    mainImgDiv.removeEventListener('click', handleClick);
     resetPage.style.visibility = 'hidden';
     buttonResults.style.visibility = 'visible';
     moreTrials.style.visibility = 'visible';
@@ -159,13 +160,6 @@ function handleResultClick(event) {
   moreTrials.style.visibility = 'hidden';
   resetPage.style.visibility = 'visible';
 
-  // for (i = 0; i < 20; i++) {
-  //   var liEl = document.createElement('li');
-  //   liEl.textContent = imagesArray[i].id + ' was clicked ' +
-  //   ClickCounter[imagesArray[i].id] + ' out of ' + imagesArray[i].shown
-  //     + ' times shown.';
-  //   ulEl.appendChild(liEl);
-  // }
   var labels = [];
   var dataClicked = [];
   var dataShown = [];
@@ -240,15 +234,10 @@ function resetScreen() {
 
   replaceImages();
   appendImagesToDiv();
-
-  // var newUlEl = document.createElement('ul');
-  // newUlEl.className = 'list';
-  // newUlEl.setAttribute('id', 'data-list');
-  // ulEl.parentNode.replaceChild(newUlEl, ulEl);
-  // ulEl = newUlEl;
 }
 //Does not reset local storage
 function handleTryMoreClick() {
+  mainImgDiv.addEventListener('click', handleClick);
   resetScreen();
 }
 // Checking to see if there is local storage
