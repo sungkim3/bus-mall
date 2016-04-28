@@ -4,30 +4,52 @@
   <title>Bus Mall</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <script src="chart.js"></script>
-  <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Oswald|Architects+Daughter' rel='stylesheet' type='text/css'>
 </head>
 <body>
-  <div class="all-container" id="image-div">
+  <div class="text-container">
+    <div class="title-container">
+      <h1 class="title"> BusMall </h1>
+      <hr></hr>
+      <p> Welcome to the BusMall. In this site we are eager to know what sort of items
+        are most attractive for the general consumer. <br>We would like your input as a means
+        to guide the direction of what will end up in our next product catalog!</p>
+    </div>
+    <div class="instruction-container">
+      <h3 class="instructions"> Instructions </h3>
+      <p> Please choose one of the items by clicking on the image that most appeals to you.
+        <br>After twenty cycles, the choices will end and it will ask whether or not you
+        would like to choose ten more times or see the results of your choices.
+        <br>We look forward to your results! </p>
+    </div>
+  </div>
+    </thead>
+    </thead>
+  </thead>
+  <div class="image-container" id="image-div">
     <div class="image" id="image-0"></div>
     <div class="image" id="image-1"></div>
     <div class="image" id="image-2"></div>
   </div>
   <div class="button-container" id="contain-buttons">
+    <div class="try-more-container">
+      <button class="try-more" id="try-more-button"> CONTINUE CHOOSING </button>
+    </div>
     <div class="two-buttons">
       <button class="results" id="result-button"> SHOW RESULTS </button>
       <button class="more-trials" id="trials-button"> TEN MORE TIMES </button>
     </div>
     <div class="reset-container">
-      <button class="reset-page" id="reset-button"> RESET </button>
+      <button class="reset-page" id="reset-button"> RESET ALL DATA </button>
     </div>
   </div>
   <div class="display-data">
-    <div class="list-container" id="contains-list">
+    <!-- <div class="list-container" id="contains-list">
       <ul class="list" id="data-list">
       </ul>
-    </div>
+    </div> -->
     <div class="chart-container" id="contains-chart">
-      <canvas id="data-chart" width="400" height="400"></canvas>
+      <canvas id="data-chart" width="600" height="400"></canvas>
     </div>
   </div>
   <script src="app.js"> </script>

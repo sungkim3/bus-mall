@@ -2,10 +2,13 @@ var imagesArray = [];
 var mainImgDiv = document.getElementById('image-div');
 var listContainer = document.getElementById('contains-list');
 var ulEl = document.getElementById('data-list');
+
 var buttonResults = document.getElementById('result-button');
 var moreTrials = document.getElementById('trials-button');
 var displayButtons = document.getElementById('contain-buttons');
 var resetPage = document.getElementById('reset-button');
+var tryMore = document.getElementById('try-more-button');
+
 var chartContainer = document.getElementById('contains-chart');
 var canvasChart = document.getElementById('data-chart');
 
@@ -134,6 +137,7 @@ function handleClick(event) {
     resetPage.style.visibility = 'hidden';
     buttonResults.style.visibility = 'visible';
     moreTrials.style.visibility = 'visible';
+    tryMore.style.visibility = 'hidden';
   } else {
     globalCounter++;
     console.log(globalCounter);
@@ -150,18 +154,18 @@ function handleClick(event) {
 // Handles click event on Results button
 function handleResultClick(event) {
   var dataChart = document.getElementById('data-chart').getContext('2d');
-
+  tryMore.style.visibility = 'visible';
   buttonResults.style.visibility = 'hidden';
   moreTrials.style.visibility = 'hidden';
   resetPage.style.visibility = 'visible';
 
-  for (i = 0; i < 20; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = imagesArray[i].id + ' was clicked ' +
-    ClickCounter[imagesArray[i].id] + ' out of ' + imagesArray[i].shown
-      + ' times shown.';
-    ulEl.appendChild(liEl);
-  }
+  // for (i = 0; i < 20; i++) {
+  //   var liEl = document.createElement('li');
+  //   liEl.textContent = imagesArray[i].id + ' was clicked ' +
+  //   ClickCounter[imagesArray[i].id] + ' out of ' + imagesArray[i].shown
+  //     + ' times shown.';
+  //   ulEl.appendChild(liEl);
+  // }
   var labels = [];
   var dataClicked = [];
   var dataShown = [];
@@ -206,37 +210,46 @@ function handleMoreClick(event) {
   buttonResults.style.visibility = 'hidden';
   moreTrials.style.visibility = 'hidden';
   resetPage.style.visibility = 'hidden';
-
+  tryMore.style.visibility = 'hidden';
   globalCounter -= 10;
 }
-// Handles click event on reset button
+// Handles click event on reset button, clears local storage
 function handleResetClick(event) {
-  buttonResults.style.visibility = 'hidden';
-  moreTrials.style.visibility = 'hidden';
-  resetPage.style.visibility = 'hidden';
-  globalCounter = 0;
-
-  var newCanvas = document.createElement('canvas');
-  newCanvas.setAttribute('id', 'data-chart');
-  newCanvas.setAttribute('width', '400');
-  newCanvas.setAttribute('height', '400');
-  canvasChart.parentNode.replaceChild(newCanvas, canvasChart);
-  canvasChart = newCanvas;
-
-  var newUlEl = document.createElement('ul');
-  newUlEl.className = 'list';
-  newUlEl.setAttribute('id', 'data-list');
-  ulEl.parentNode.replaceChild(newUlEl, ulEl);
-  ulEl = newUlEl;
-
+  resetScreen();
   localStorage.clear();
-  replaceImages();
-  appendImagesToDiv();
-
   for (var i = 0; i < imagesArray.length; i++) {
     imagesArray[i].shown = 0;
     ClickCounter[imagesArray[i].id] = 0;
   }
+}
+// Reset function
+function resetScreen() {
+  buttonResults.style.visibility = 'hidden';
+  moreTrials.style.visibility = 'hidden';
+  resetPage.style.visibility = 'hidden';
+  tryMore.style.visibility = 'hidden';
+
+  globalCounter = 0;
+
+  var newCanvas = document.createElement('canvas');
+  newCanvas.setAttribute('id', 'data-chart');
+  newCanvas.setAttribute('width', '600');
+  newCanvas.setAttribute('height', '400');
+  canvasChart.parentNode.replaceChild(newCanvas, canvasChart);
+  canvasChart = newCanvas;
+
+  replaceImages();
+  appendImagesToDiv();
+
+  // var newUlEl = document.createElement('ul');
+  // newUlEl.className = 'list';
+  // newUlEl.setAttribute('id', 'data-list');
+  // ulEl.parentNode.replaceChild(newUlEl, ulEl);
+  // ulEl = newUlEl;
+}
+//Does not reset local storage
+function handleTryMoreClick() {
+  resetScreen();
 }
 // Checking to see if there is local storage
 (function checkLocalStore() {
@@ -260,3 +273,4 @@ mainImgDiv.addEventListener('click', handleClick);
 buttonResults.addEventListener('click', handleResultClick);
 moreTrials.addEventListener('click', handleMoreClick);
 resetPage.addEventListener('click', handleResetClick);
+tryMore.addEventListener('click', handleTryMoreClick);
