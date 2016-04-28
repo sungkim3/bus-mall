@@ -19,9 +19,8 @@ function CreateImageObject(imageName, type, shown, clicked, id) {
   this.shown = shown;
   this.clicked = clicked;
   this.id = id;
-  this.imageNode = document.createElement('img');
-  this.imageNode.src = 'img/' + this.imageName + '.' + this.type;
   imagesArray.push(this);
+
 }
 
 var newBag = new CreateImageObject('bag', 'jpg', 0, 0, 'Bag');
@@ -34,7 +33,7 @@ var newChair = new CreateImageObject('chair', 'jpg', 0, 0, 'Chair');
 var newCthulhu = new CreateImageObject('cthulhu', 'jpg', 0, 0, 'Cthulhu');
 var newDogDuck = new CreateImageObject('dog-duck', 'jpg', 0, 0, 'DogDuck');
 var newDragon = new CreateImageObject('dragon', 'jpg', 0, 0, 'Dragon');
-var newPen = new CreateImageObject('pen', 'jpg', 0, 0, 'newPen');
+var newPen = new CreateImageObject('pen', 'jpg', 0, 0, 'Pen');
 var newPetSweep = new CreateImageObject('pet-sweep', 'jpg', 0, 0, 'PetSweep');
 var newScissors = new CreateImageObject('scissors', 'jpg', 0, 0, 'Scissors');
 var newShark = new CreateImageObject('shark', 'jpg', 0, 0, 'Shark');
@@ -80,9 +79,8 @@ function findRandomNumber() {
 // the found random image into its own separate array
 function findRandomImage() {
   var arrayIndexNumber = findRandomNumber();
-  var foundImageObject = imagesArray[arrayIndexNumber].imageNode;
+  var foundImageObject = imagesArray[arrayIndexNumber];
   imagesArray[arrayIndexNumber].shown += 1;
-  foundImageObject.setAttribute('id', imagesArray[arrayIndexNumber].id);
   setOfImagesArray.push(foundImageObject);
 }
 //  Takes the numberArray and looks for duplicate values, eliminates duplicate values
@@ -91,6 +89,10 @@ function findRandomImage() {
 function appendImagesToDiv() {
   for (var i = 0; i < 3; i++) {
     findRandomImage();
+    var imageNode = document.createElement('img');
+    console.log(imagesArray[i]);
+    imageNode.src = 'img/' + setOfImagesArray[i].imageName + '.' + setOfImagesArray[i].type;
+    imageNode.setAttribute('id', setOfImagesArray[i].id);
     if (i > 0) {
       while (numberArray[i] === numberArray[i - 1] || numberArray[i] === numberArray[i - 2]) {
         // console.log('I found a duplicate');
@@ -98,20 +100,32 @@ function appendImagesToDiv() {
         imagesArray[numberArray[i]].shown -= 1;
         numberArray.pop();
         var newNumber = findRandomNumber();
-        var foundNewImageObject = imagesArray[newNumber].imageNode;
+        var foundNewImageObject = imagesArray[newNumber];
         imagesArray[newNumber].shown += 1;
-        foundNewImageObject.setAttribute('id', imagesArray[newNumber].id);
+        var newImageNode = document.createElement('img');
+        newImageNode.src = 'img/' + imagesArray[newNumber].imageName + '.' + imagesArray[newNumber].type;
+        newImageNode.setAttribute('id', imagesArray[newNumber].id);
         setOfImagesArray[i] = foundNewImageObject;
+        imageNode = newImageNode;
       }
     }
-    var imageObject = setOfImagesArray[i];
-    imageObject.width = 200;
-    imageObject.height = 200;
+    imageNode.width = 200;
+    imageNode.height = 200;
     var divImg = document.getElementById('image-' + i);
-    divImg.appendChild(imageObject);
+    divImg.appendChild(imageNode);
   }
   numberArray = [];
   setOfImagesArray = [];
+}
+
+function replaceImages() {
+  for (var i = 0; i < 3; i++) {
+    var divImg = document.getElementById('image-' + i);
+    var newDiv = document.createElement('div');
+    newDiv.setAttribute('id', 'image-' + i);
+    divImg.parentNode.replaceChild(newDiv, divImg);
+    divImg = newDiv;
+  }
 }
 // handles the click event to reset images and increments the clicked counter for image clicked
 function handleClick(event) {
@@ -126,13 +140,10 @@ function handleClick(event) {
     var target = event.target.id;
     console.log(target);
     ClickCounter[target] = ClickCounter[target] + 1;
-    for (var i = 0; i < 3; i++) {
-      var divImg = document.getElementById('image-' + i);
-      mainImgDiv.removeChild(divImg);
-      var newDiv = document.createElement('div');
-      newDiv.setAttribute('id', 'image-' + i);
-      mainImgDiv.appendChild(newDiv);
-    }
+    // Send to Local Storage
+    localStorage.setItem('stringedImage', JSON.stringify(imagesArray));
+    localStorage.setItem('stringedCounts', JSON.stringify(ClickCounter));
+    replaceImages();
     appendImagesToDiv();
   }
 }
@@ -218,11 +229,31 @@ function handleResetClick(event) {
   ulEl.parentNode.replaceChild(newUlEl, ulEl);
   ulEl = newUlEl;
 
+  localStorage.clear();
+  replaceImages();
+  appendImagesToDiv();
+
   for (var i = 0; i < imagesArray.length; i++) {
     imagesArray[i].shown = 0;
     ClickCounter[imagesArray[i].id] = 0;
   }
 }
+// Checking to see if there is local storage
+(function checkLocalStore() {
+  if (localStorage.stringedImage) {
+    console.log('local storage exists');
+    var parsedImagesArray = JSON.parse(localStorage.stringedImage);
+    var parsedClickCounter = JSON.parse(localStorage.stringedCounts);
+    for (i = 0; i < parsedImagesArray.length; i++) {
+      parsedImagesArray[i].prototype = CreateImageObject;
+      // console.log(parsedImagesArray[i]);
+    }
+    imagesArray = parsedImagesArray;
+    ClickCounter = parsedClickCounter;
+  } else {
+    console.log('local storage does not exist');
+  }
+})();
 
 appendImagesToDiv();
 mainImgDiv.addEventListener('click', handleClick);
